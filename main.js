@@ -32,14 +32,19 @@ function shorturl() {
     document.getElementById("addBtn").disabled = false;
     document.getElementById("addBtn").innerHTML = 'Shorten it';
 
-    // 成功生成短链 Succeed
+    // 成功生成短链
     if (res.status == "200") {
-      let keyPhrase = res.key;
-      let valueLongURL = document.querySelector("#longURL").value;
-      // save to localStorage
-      localStorage.setItem(keyPhrase, valueLongURL);
-      // add to urlList on the page
-      addUrlToList(keyPhrase, valueLongURL)
+    let keyShortURL = window.location.host + res.key;
+    let valueLongURL = document.querySelector("#longURL").value;
+    // save to localStorage
+    localStorage.setItem(keyShortURL, valueLongURL);
+    // add to urlList on the page
+    let urlList = document.querySelector("#urlList")
+    let child = document.createElement('li')
+    let text = document.createTextNode(keyShortURL + " " + valueLongURL)
+    child.appendChild(text)
+    urlList.append(child)
+    }
 
       document.getElementById("result").innerHTML = window.location.protocol + "//" + window.location.host + "/" + res.key;
     } else {
